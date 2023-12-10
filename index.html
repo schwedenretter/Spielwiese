@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bewegender Schriftzug</title>
+    <title>Bewegender und vergrößernder Schriftzug</title>
     <style>
         body {
             margin: 0;
@@ -23,19 +23,22 @@
             0% {
                 left: -100%;
                 color: red;
+                font-size: 24px;
             }
             50% {
                 left: 100%;
                 color: green;
+                font-size: 72px; /* Dreimal so groß wie 24px */
             }
             100% {
                 left: -100%;
                 color: blue;
+                font-size: 24px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="moving-text">Bewegender Schriftzug</div>
+    <div class="moving-text">Bewegender und vergrößernder Schriftzug</div>
 </body>
 </html>
