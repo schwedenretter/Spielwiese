@@ -4,12 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weihnachtsgrüße an der HBG</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .snowfall {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .snowflake {
+            position: absolute;
+            font-size: 16px;
+            color: #fff;
+            user-select: none;
+            pointer-events: none;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="snowfall">
         <p>Hallo zusammen und eine gute Weihnachtszeit an der HBG!</p>
     </div>
-    <script src="snowfall.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const snowfallContainer = document.querySelector(".snowfall");
+
+            function createSnowflake() {
+                const snowflake = document.createElement("div");
+                snowflake.classList.add("snowflake");
+                snowflake.style.left = Math.random() * 100 + "vw";
+                snowflake.style.animationDuration = Math.random() * 2 + 3 + "s";
+                snowflake.style.animationDelay = Math.random() * 2 + "s";
+                snowflake.innerHTML = "❄";
+                snowfallContainer.appendChild(snowflake);
+
+                snowflake.addEventListener("animationend", function () {
+                    snowflake.remove();
+                    createSnowflake();
+                });
+            }
+
+            for (let i = 0; i < 20; i++) {
+                createSnowflake();
+            }
+        });
+    </script>
 </body>
 </html>
