@@ -3,75 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Frohe Weihnachten!</title>
+    <title>Chatfenster mit KI-Tool-Vorschlägen</title>
     <style>
         body {
             margin: 0;
             overflow: hidden;
-            background-color: #282c35;
-            color: #fff;
             font-family: 'Arial', sans-serif;
         }
 
-        .modern-text {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 48px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        .snowfall {
-            pointer-events: none;
+        #chat-container {
             position: fixed;
-            top: 0;
+            bottom: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
-
-        .snowflake {
-            position: absolute;
-            font-size: 16px;
+            padding: 20px;
+            background-color: #333;
             color: #fff;
-            user-select: none;
-            pointer-events: none;
-            animation: fall linear infinite;
         }
 
-        @keyframes fall {
-            to {
-                transform: translateY(100vh);
-            }
+        #input-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #user-input {
+            flex: 1;
+            margin-right: 10px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        #send-button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        #output-container {
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <div class="modern-text">Frohe Weihnachten!</div>
-    <div class="snowfall"></div>
+    <div id="chat-container">
+        <div id="output-container"></div>
+        <div id="input-container">
+            <input type="text" id="user-input" placeholder="Dein Fach...">
+            <button id="send-button">Senden</button>
+        </div>
+    </div>
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const snowfallContainer = document.querySelector(".snowfall");
+            const userInput = document.getElementById("user-input");
+            const sendButton = document.getElementById("send-button");
+            const outputContainer = document.getElementById("output-container");
 
-            function createSnowflake() {
-                const snowflake = document.createElement("div");
-                snowflake.classList.add("snowflake");
-                snowflake.style.left = Math.random() * 100 + "vw";
-                snowflake.style.animationDuration = Math.random() * 2 + 3 + "s";
-                snowflake.style.animationDelay = Math.random() * 2 + "s";
-                snowflake.innerHTML = "❄";
-                snowfallContainer.appendChild(snowflake);
+            sendButton.addEventListener("click", function () {
+                const userMessage = userInput.value;
 
-                snowflake.addEventListener("animationend", function () {
-                    snowflake.remove();
-                    createSnowflake();
-                });
+                if (userMessage.trim() !== "") {
+                    appendMessage("user", userMessage);
+
+                    // Empfehle ein KI-Tool basierend auf dem Fach
+                    recommendKITool(userMessage);
+
+                    userInput.value = "";
+                }
+            });
+
+            function recommendKITool(subject) {
+                let recommendation = "";
+
+                // Logik für Tool-Empfehlungen
+                if (subject.toLowerCase().includes("mathe")) {
+                    recommendation = "Photomath könnte nützlich sein!";
+                } else if (subject.toLowerCase().includes("deutsch")) {
+                    recommendation = "PEER und DeepL/Write sind gute Optionen!";
+                } else {
+                    recommendation = "GPT 3.5/4 und SlidesGPT könnten passend sein.";
+                }
+
+                appendMessage("bot", recommendation);
             }
 
-            for (let i = 0; i < 50; i++) {
-                createSnowflake();
+            function appendMessage(sender, message) {
+                const messageElement = document.createElement("div");
+                messageElement.classList.add(sender === "user" ? "user-message" : "bot-message");
+                messageElement.innerText = message;
+                outputContainer.appendChild(messageElement);
             }
         });
     </script>
