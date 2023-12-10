@@ -10,6 +10,7 @@
             overflow: hidden;
             font-family: 'Arial', sans-serif;
             background-color: #282c35;
+            position: relative;
         }
 
         #chat-container {
@@ -46,9 +47,32 @@
         #output-container {
             margin-top: 20px;
         }
+
+        #snowfall {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        #cologne-dom {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            width: 50px;
+            height: 50px;
+            background-color: transparent;
+            z-index: 1;
+            border: 1px solid #fff;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        }
     </style>
 </head>
 <body>
+    <div id="snowfall"></div>
+    <div id="cologne-dom"></div>
     <div id="chat-container">
         <input type="text" id="user-input" placeholder="Gib das Fach ein, welches du an der HBG unterrichtest. Vllt. kenne ich ja ein passendes KI-Tool">
         <button id="send-button">Senden</button>
@@ -103,7 +127,7 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const snowfallContainer = document.body;
+            const snowfallContainer = document.getElementById("snowfall");
 
             function createSnowflake() {
                 const snowflake = document.createElement("div");
