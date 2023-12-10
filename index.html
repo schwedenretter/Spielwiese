@@ -9,26 +9,24 @@
             margin: 0;
             overflow: hidden;
             font-family: 'Arial', sans-serif;
+            background-color: #282c35;
         }
 
         #chat-container {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
             padding: 20px;
             background-color: #333;
             color: #fff;
-        }
-
-        #input-container {
-            display: flex;
-            justify-content: space-between;
+            border-radius: 10px;
         }
 
         #user-input {
-            flex: 1;
-            margin-right: 10px;
+            width: calc(100% - 20px);
+            margin-bottom: 10px;
             padding: 10px;
             border: none;
             border-radius: 5px;
@@ -36,6 +34,7 @@
         }
 
         #send-button {
+            width: 100%;
             padding: 10px;
             border: none;
             border-radius: 5px;
@@ -51,11 +50,9 @@
 </head>
 <body>
     <div id="chat-container">
+        <input type="text" id="user-input" placeholder="Gib das Fach ein, welches du an der HBG unterrichtest. Vllt. kenne ich ja ein passendes KI-Tool">
+        <button id="send-button">Senden</button>
         <div id="output-container"></div>
-        <div id="input-container">
-            <input type="text" id="user-input" placeholder="Dein Fach...">
-            <button id="send-button">Senden</button>
-        </div>
     </div>
 
     <script>
@@ -68,6 +65,9 @@
                 const userMessage = userInput.value;
 
                 if (userMessage.trim() !== "") {
+                    // Leere das Ausgabefenster bei jeder neuen Eingabe
+                    outputContainer.innerHTML = "";
+
                     appendMessage("user", userMessage);
 
                     // Empfehle ein KI-Tool basierend auf dem Fach
@@ -97,6 +97,31 @@
                 messageElement.classList.add(sender === "user" ? "user-message" : "bot-message");
                 messageElement.innerText = message;
                 outputContainer.appendChild(messageElement);
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const snowfallContainer = document.body;
+
+            function createSnowflake() {
+                const snowflake = document.createElement("div");
+                snowflake.classList.add("snowflake");
+                snowflake.style.left = Math.random() * window.innerWidth + "px";
+                snowflake.style.animationDuration = Math.random() * 2 + 3 + "s";
+                snowflake.style.animationDelay = Math.random() * 2 + "s";
+                snowflake.innerHTML = "❄";
+                snowfallContainer.appendChild(snowflake);
+
+                snowflake.addEventListener("animationend", function () {
+                    snowflake.remove();
+                    createSnowflake();
+                });
+            }
+
+            for (let i = 0; i < 50; i++) {
+                createSnowflake();
             }
         });
     </script>
